@@ -10,9 +10,9 @@ In development Webpack compiles your application runs it in-memory. Only when
 you run `$ npm run build` will it write to disk and preserve your bundled
 application across computer restarts.
 
-## How do I fix `Error: listen EADDRINUSE 127.0.0.1:3000`?
+## How do I fix `Error: listen EADDRINUSE 127.0.0.1:4000`?
 
-This simply means that there's another process already listening on port 3000.
+This simply means that there's another process already listening on port 4000.
 The fix is to kill the process and rerun `npm start`.
 
 ### OS X / Linux:
@@ -46,7 +46,7 @@ The fix is to kill the process and rerun `npm start`.
     > Proto     Local Address     Foreign Address   State       PID
     > TCP       0.0.0.0:25        0.0.0.0:0         Listening   4196
     > ...
-    > TCP       0.0.0.0:3000      0.0.0.0:0         Listening   28344
+    > TCP       0.0.0.0:4000      0.0.0.0:0         Listening   28344
     ```
 
 1. Then run
