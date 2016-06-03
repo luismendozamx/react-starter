@@ -11,6 +11,10 @@
  * the linting exception.
  */
 
+
+// Import main Sass file
+import 'styles/index.scss';
+
 import React from 'react';
 
 /* eslint-disable react/prefer-stateless-function */
