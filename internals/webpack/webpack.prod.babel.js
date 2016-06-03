@@ -5,11 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 
-// PostCSS plugins
-const cssnext = require('postcss-cssnext');
-const postcssFocus = require('postcss-focus');
-const postcssReporter = require('postcss-reporter');
-
 module.exports = require('./webpack.base.babel')({
   // In production, we skip all hot-reloading stuff
   entry: [
@@ -26,19 +21,9 @@ module.exports = require('./webpack.base.babel')({
   // of the CSS being in the JS and injected as a style tag
   cssLoaders: ExtractTextPlugin.extract(
     'style-loader',
-    'css-loader?modules&importLoaders=1!postcss-loader'
+    'css-loader?modules&importLoaders=1!'
   ),
 
-  // In production, we minify our CSS with cssnano
-  postcssPlugins: [
-    postcssFocus(),
-    cssnext({
-      browsers: ['last 2 versions', 'IE > 10'],
-    }),
-    postcssReporter({
-      clearMessages: true,
-    }),
-  ],
   plugins: [
 
     // OccurrenceOrderPlugin is needed for long-term caching to work properly.
