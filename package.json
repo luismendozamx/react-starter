@@ -28,7 +28,7 @@
     "lint:eslint:staged": "eslint-staged",
     "lint:jscs": "jscs .",
     "lint:jscs:staged": "jscs-staged",
-    "lint:css": "stylelint ./app/**/*.css",
+    "lint:css": "stylelint ./app/**/*.scss",
     "lint:css:staged": "stylelint-staged",
     "lint:staged": "npm run lint:js:staged && npm run lint:css:staged",
     "pretest": "npm run lint",

@@ -11,7 +11,6 @@
  * the linting exception.
  */
 
-
 // Import main Sass file
 import 'styles/index.scss';
 
