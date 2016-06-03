@@ -24,7 +24,7 @@ import configureStore from './store';
 import 'sanitize.css/lib/sanitize.css';
 
 // Import Bootstrap CSS
-import '!!style-loader!css-loader!bootstrap/dist/css/bootstrap.css';
+import '!!style-loader!css-loader!sass-loader!bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
