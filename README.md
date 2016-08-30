@@ -1,6 +1,6 @@
 # React Starter
 
-Modified version of (react-boilerplate)[https://github.com/mxstbr/react-boilerplate]
+Modified version of [react-boilerplate](https://github.com/mxstbr/react-boilerplate)
 
 ## Documentation
 
