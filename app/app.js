@@ -6,10 +6,11 @@
  */
 import 'babel-polyfill';
 
-// TODO constrain eslint import/no-unresolved rule to this block
+/* eslint-disable import/no-unresolved */
 // Load the manifest.json file and the .htaccess file
-import 'file?name=[name].[ext]!./manifest.json';  // eslint-disable-line import/no-unresolved
-import 'file?name=[name].[ext]!./.htaccess';      // eslint-disable-line import/no-unresolved
+import '!file?name=[name].[ext]!./manifest.json';
+import 'file?name=[name].[ext]!./.htaccess';
+/* eslint-enable import/no-unresolved */
 
 // Import all the third party stuff
 import React from 'react';
@@ -18,15 +19,20 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import useScroll from 'react-router-scroll';
+import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from './store';
 
+// Import i18n messages
+import { translationMessages } from './i18n';
+
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
-import 'sanitize.css/lib/sanitize.css';
+import 'sanitize.css/sanitize.css';
 
 /* ======= Plugins ======== */
 
-// Import Styles
-import '!!style-loader!css-loader!sass-loader!bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+// Import Styles for Bootstrap & font-awesome
+import 'style-loader!css-loader!sass-loader!bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+import 'style-loader!font-awesome/css/font-awesome.css';
 
 // Import Scripts
 import 'expose?$!expose?jQuery!jquery'; // expose-loader to expose $ to window.$
@@ -57,34 +63,45 @@ const rootRoute = {
   childRoutes: createRoutes(store),
 };
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router
-      history={history}
-      routes={rootRoute}
-      render={
-        // Scroll to top when going to a new page, imitating default browser
-        // behaviour
-        applyRouterMiddleware(
-          useScroll(
-            (prevProps, props) => {
-              if (!prevProps || !props) {
-                return true;
-              }
 
-              if (prevProps.location.pathname !== props.location.pathname) {
-                return [0, 0];
-              }
+const render = (translatedMessages) => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <LanguageProvider messages={translatedMessages}>
+        <Router
+          history={history}
+          routes={rootRoute}
+          render={
+            // Scroll to top when going to a new page, imitating default browser
+            // behaviour
+            applyRouterMiddleware(useScroll())
+          }
+        />
+      </LanguageProvider>
+    </Provider>,
+    document.getElementById('app')
+  );
+};
 
-              return true;
-            }
-          )
-        )
-      }
-    />
-  </Provider>,
-  document.getElementById('app')
-);
+
+// Hot reloadable translation json files
+if (module.hot) {
+  // modules.hot.accept does not accept dynamic dependencies,
+  // have to be constants at compile-time
+  module.hot.accept('./i18n', () => {
+    render(translationMessages);
+  });
+}
+
+// Chunked polyfill for browsers without Intl support
+if (!window.Intl) {
+  Promise.all([
+    System.import('intl'),
+    System.import('intl/locale-data/jsonp/en.js'),
+  ]).then(() => render(translationMessages));
+} else {
+  render(translationMessages);
+}
 
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,

@@ -6,16 +6,24 @@
 
 import React from 'react';
 
+{{#if wantMessages}}
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
+{{/if}}
+
 {{#if wantCSS}}
-import styles from './styles.scss';
+import './styles.scss';
 {{/if}}
 
 function {{ properCase name }}() {
   return (
     {{#if wantCSS}}
-    <div className='{{ dashCase name }}'>
+    <div className="{{ dashCase name }}">
     {{else}}
     <div>
+    {{/if}}
+    {{#if wantMessages}}
+      <FormattedMessage {...messages.header} />
     {{/if}}
     </div>
   );

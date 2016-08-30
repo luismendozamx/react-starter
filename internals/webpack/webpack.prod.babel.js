@@ -25,6 +25,12 @@ module.exports = require('./webpack.base.babel')({
   ),
 
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      children: true,
+      minChunks: 2,
+      async: true,
+    }),
 
     // OccurrenceOrderPlugin is needed for long-term caching to work properly.
     // See http://mxs.is/googmv
@@ -45,7 +51,7 @@ module.exports = require('./webpack.base.babel')({
       template: 'app/index.html',
       minify: {
         removeComments: true,
-        collapseWhitespace: false,
+        collapseWhitespace: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
         removeEmptyAttributes: true,
@@ -64,7 +70,9 @@ module.exports = require('./webpack.base.babel')({
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     new OfflinePlugin({
-      relativePaths: true, // Use generated relative paths by default
+      relativePaths: false,
+      publicPath: '/',
+
       // No need to cache .htaccess. See http://mxs.is/googmp,
       // this is applied before any match in `caches` section
       excludes: ['.htaccess'],
@@ -77,6 +85,11 @@ module.exports = require('./webpack.base.babel')({
         // do not want them to be preloaded at all (cached only when first loaded)
         additional: ['*.chunk.js'],
       },
+
+      // Removes warning for about `additional` section usage
+      safeToUseOptionalCaches: true,
+
+      AppCache: false,
     }),
   ],
 });

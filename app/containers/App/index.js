@@ -11,13 +11,11 @@
  * the linting exception.
  */
 
-// Import main Sass file
-import 'styles/index.scss';
-
 import React from 'react';
 
-/* eslint-disable react/prefer-stateless-function */
-export default class App extends React.Component {
+import './styles.scss';
+
+export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
     children: React.PropTypes.node,
@@ -26,7 +24,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        {this.props.children}
+        {React.Children.toArray(this.props.children)}
       </div>
     );
   }
