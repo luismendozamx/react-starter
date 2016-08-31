@@ -51,7 +51,7 @@ module.exports = require('./webpack.base.babel')({
       template: 'app/index.html',
       minify: {
         removeComments: true,
-        collapseWhitespace: true,
+        collapseWhitespace: false,
         removeRedundantAttributes: true,
         useShortDoctype: true,
         removeEmptyAttributes: true,
